@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Loading from "./Loading";
 import Panel from "./Panel";
+import axios from "axios";
 
 import classnames from "classnames";
 
@@ -32,7 +33,6 @@ class Dashboard extends Component {
   state = { 
     loading: true,
     focused: null, //when I change it to 1 or 2 or 3 or 4 shows panels individually 
-
     days: [],
     appointments: {},
     interviewers: {}
@@ -44,6 +44,19 @@ class Dashboard extends Component {
     if (focused) {
       this.setState({ focused });
     }
+
+    Promise.all([
+      axios.get("/api/days"),
+      axios.get("/api/appointments"),
+      axios.get("/api/interviewers")
+    ]).then(([days, appointments, interviewers]) => {
+      this.setState({
+        loading: false,
+        days: days.data,
+        appointments: appointments.data,
+        interviewers: interviewers.data
+      });
+    });
   }
   componentDidUpdate(previousProps, previousState) {
     if (previousState.focused !== this.state.focused) {
@@ -62,7 +75,7 @@ class Dashboard extends Component {
   } 
 
   render() {
-    
+    //console.log("this.state: ", this.state) will show 2 outputs/ one from render during mount phase, second result of update phase
     const dashboardClasses = classnames("dashboard", {
       "dashboard--focused": this.state.focused
     });
@@ -70,6 +83,8 @@ class Dashboard extends Component {
     if (this.state.loading) {
       return <Loading />;
     }
+
+    //console.log("this.state: ", this.state); //will only show the second output once the data is loaded
 
     const panels = data
     //When we are in focused mode, we want to render one
