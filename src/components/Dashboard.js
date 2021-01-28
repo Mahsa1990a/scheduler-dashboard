@@ -30,8 +30,12 @@ const data = [
 class Dashboard extends Component {
   
   state = { 
-    loading: false,
-    focused: null //when I change it to 1 or 2 or 3 or 4 shows panels individually 
+    loading: true,
+    focused: null, //when I change it to 1 or 2 or 3 or 4 shows panels individually 
+
+    days: [],
+    appointments: {},
+    interviewers: {}
   };
 
   componentDidMount() {
