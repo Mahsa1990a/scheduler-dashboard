@@ -30,25 +30,33 @@ const data = [
 class Dashboard extends Component {
   
   state = { 
-    loading: false 
+    loading: false,
+    focused: null 
   };
 
   render() {
-
-    const panels = data.map(panel => (
-      <Panel 
-        key={panel.id}
-        id={panel.id}
-        label={panel.label}
-        value={panel.value}
-      />
-    ))
     
     const dashboardClasses = classnames("dashboard");
 
     if (this.state.loading) {
       return <Loading />;
     }
+
+    
+    const panels = data
+    //When we are in focused mode, we want to render one
+    .filter(
+      panel => this.state.focused === null || this.state.focused === panel.id
+    )
+    //shows each panel individually but all together
+    .map(panel => (
+      <Panel 
+        key={panel.id}
+        id={panel.id}
+        label={panel.label}
+        value={panel.value}
+      />
+    ));
 
     return <main className={dashboardClasses}>{panels}</main>;
   }
