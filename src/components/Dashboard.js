@@ -34,6 +34,19 @@ class Dashboard extends Component {
     focused: null //when I change it to 1 or 2 or 3 or 4 shows panels individually 
   };
 
+  componentDidMount() {
+    const focused = JSON.parse(localStorage.getItem("focused"));
+
+    if (focused) {
+      this.setState({ focused });
+    }
+  }
+  componentDidUpdate(previousProps, previousState) {
+    if (previousState.focused !== this.state.focused) {
+      localStorage.setItem("focused", JSON.stringify(this.state.focused));
+    }
+  }
+
   //we want to change the focused state, we can use the this.setState function to make the change
   /* Instance Method */
   selectPanel(id) {
@@ -54,7 +67,6 @@ class Dashboard extends Component {
       return <Loading />;
     }
 
-    
     const panels = data
     //When we are in focused mode, we want to render one
     .filter(
