@@ -31,8 +31,15 @@ class Dashboard extends Component {
   
   state = { 
     loading: false,
-    focused: null 
+    focused: null //when I change it to 1 or 2 or 3 or 4 shows panels individually 
   };
+
+  //we want to change the focused state, we can use the this.setState function to make the change
+  selectPanel(id) {
+    this.setState({
+     focused: id
+    });
+   }
 
   render() {
     
@@ -57,6 +64,7 @@ class Dashboard extends Component {
         id={panel.id}
         label={panel.label}
         value={panel.value}
+        onSelect={this.selectPanel}
       />
     ));
 
