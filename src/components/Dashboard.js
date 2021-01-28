@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import Loading from "./Loading";
-import Panel from "./Panel";
+import classnames from "classnames";
 import axios from "axios";
 
-import classnames from "classnames";
+import Loading from "./Loading";
+import Panel from "./Panel";
+
 //helper functions
 import {
   getTotalInterviews,
@@ -68,12 +69,6 @@ class Dashboard extends Component {
     });
 
     this.socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
-  }
-  componentDidUpdate(previousProps, previousState) {
-
-    if (previousState.focused !== this.state.focused) {
-      localStorage.setItem("focused", JSON.stringify(this.state.focused));
-    }
 
     this.socket.onmessage = event => {
       const data = JSON.parse(event.data);
@@ -85,6 +80,14 @@ class Dashboard extends Component {
       }
     };
   }
+
+  componentDidUpdate(previousProps, previousState) {
+
+    if (previousState.focused !== this.state.focused) {
+      localStorage.setItem("focused", JSON.stringify(this.state.focused));
+    }
+  }
+  
   componentWillUnmount() {
     this.socket.close();
   }
