@@ -104,7 +104,8 @@ class Dashboard extends Component {
         key={panel.id}
         // id={panel.id}
         label={panel.label}
-        value={panel.value}
+        // value={panel.value} updated to :
+        value={panel.getValue(this.state)}
         // onSelect={this.selectPanel} updated to:
         onSelect={event => this.selectPanel(panel.id)}
       />
