@@ -37,9 +37,11 @@ class Dashboard extends Component {
   //we want to change the focused state, we can use the this.setState function to make the change
   /* Instance Method */
   selectPanel(id) {
-    this.setState({
-     focused: id
-    });
+    //update it to back to null from individual pages
+    this.setState(previousState => ({
+      // focused: id
+      focused: previousState.focused !== null ? null : id
+    }));
   } 
 
   render() {
